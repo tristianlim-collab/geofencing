@@ -1,0 +1,29 @@
+{
+  "name": "geofence-attendance-system",
+  "version": "1.0.0",
+  "description": "Geofence-based attendance system with student, teacher, and admin workflows.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "reset:password": "node scripts/reset-password.js",
+    "supabase:export-sql": "node scripts/supabase-export-sql.js",
+    "web:install": "npm --prefix web-admin install",
+    "web:dev": "npm --prefix web-admin run dev",
+    "web:build": "npm --prefix web-admin run build"
+  },
+  "keywords": [
+    "attendance",
+    "geofence",
+    "school",
+    "nodejs"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.56.0",
+    "dotenv": "^17.3.1",
+    "leaflet-geometryutil": "^0.10.3"
+  }
+}
