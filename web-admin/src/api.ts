@@ -6,7 +6,7 @@ export type User = {
   studentId?: string;
 };
 
-const API_BASE_ENV = (import.meta.env.VITE_API_BASE as string | undefined) || '';
+const API_BASE_ENV = (import.meta.env.VITE_API_BASE as string | undefined) || 'https://geofencing-xrum.onrender.com/api';
 let resolvedApiBase: string | null = null;
 let resolvingApiBase: Promise<string> | null = null;
 
