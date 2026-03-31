@@ -186,7 +186,7 @@ class AppNotification {
   }
 }
 
-`class StudentHomePage extends StatefulWidget {
+class StudentHomePage extends StatefulWidget {
   const StudentHomePage({super.key});
 
   @override
