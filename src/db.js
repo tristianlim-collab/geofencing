@@ -123,6 +123,7 @@ function toSupabaseRows(db) {
       device_id: record.deviceId || null,
       face_verified: record.faceVerified ?? null,
       face_distance: record.faceDistance ?? null,
+        captured_image: record.capturedImage || null,
       created_at: record.createdAt
     })),
     notifications: db.notifications.map(notification => ({

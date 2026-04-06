@@ -1,4 +1,4 @@
-﻿import { FormEvent, useEffect, useMemo, useState } from 'react';
+import { FormEvent, useEffect, useMemo, useState } from 'react';
 import L from 'leaflet';
 import type { LeafletMouseEvent } from 'leaflet';
 import { Polygon, Marker, CircleMarker, MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet';
@@ -53,11 +53,20 @@ type SummaryStudent = {
   attendancePercentage: number;
 };
 
+type RecordItem = {
+  id: string;
+  studentId: string;
+  checkInAt: string;
+  status: string;
+  capturedImage?: string;
+};
+
 type SummaryResponse = {
   from: string;
   to: string;
   totals: SummaryTotals;
   perStudent: SummaryStudent[];
+  records: RecordItem[];
 };
 
 const dotIcon = L.divIcon({
@@ -143,7 +152,7 @@ export function App() {
 
   const title = useMemo(() => {
     if (!user) return 'Teacher Web Portal';
-    return `${user.role.toUpperCase()} • ${user.name}`;
+    return `${user.role.toUpperCase()} � ${user.name}`;
   }, [user]);
 
   async function loadDashboard(nextToken: string) {
@@ -606,7 +615,7 @@ export function App() {
       <header className="topbar panel">
         <div>
           <h1>{title}</h1>
-          <p className="muted">Teacher Dashboard • Geofence Attendance</p>
+          <p className="muted">Teacher Dashboard � Geofence Attendance</p>
         </div>
         <div style={{ display: 'flex', gap: '8px' }}>
           <button className="ghost-btn" onClick={onLogout}>Logout</button>
@@ -663,7 +672,7 @@ export function App() {
               <option value="">Select class</option>
               {classes.map(c => (
                 <option key={c.id} value={c.id}>
-                  {c.subjectCode} • {c.section}
+                  {c.subjectCode} � {c.section}
                 </option>
               ))}
             </select>
@@ -679,7 +688,7 @@ export function App() {
                   />
                   <span>
                     {student.name} ({student.studentId || student.id})
-                    {enrolledSet.has(student.id) ? ' • Enrolled' : ' • Not enrolled'}
+                    {enrolledSet.has(student.id) ? ' � Enrolled' : ' � Not enrolled'}
                   </span>
                 </label>
               ))}
@@ -716,7 +725,7 @@ export function App() {
               <option value="">Select class</option>
               {classes.map(c => (
                 <option key={c.id} value={c.id}>
-                  {c.subjectCode} • {c.section}
+                  {c.subjectCode} � {c.section}
                 </option>
               ))}
             </select>
@@ -883,7 +892,7 @@ export function App() {
                   <span>{s.startTime}-{s.endTime}</span>
                 </div>
                 <p className="list-meta">
-                  Days: {dayLabels(s.daysOfWeek)} • Geofence: {s.geofence.radiusMeters}m
+                  Days: {dayLabels(s.daysOfWeek)} � Geofence: {s.geofence.radiusMeters}m
                 </p>
                 <button
                   className="danger-btn list-action-btn"
@@ -952,6 +961,25 @@ export function App() {
                 </tbody>
               </table>
             </div>
+
+            {summary.records && summary.records.filter((r) => r.capturedImage).length > 0 && (
+              <>
+                <h3 style={{ marginTop: '24px', marginBottom: '8px' }}>Recent Check-ins</h3>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
+                  {summary.records.filter((r) => r.capturedImage).map(r => {
+                    const stu = summary.perStudent.find(s => s.studentId === r.studentId);
+                    const name = stu ? stu.studentName : 'Unknown';
+                    return (
+                      <div key={r.id} style={{ border: '1px solid #eee', borderRadius: '8px', padding: '8px', width: '120px', textAlign: 'center' }}>
+                        <img src={`data:image/jpeg;base64,${r.capturedImage}`} style={{ width: '100px', height: '100px', objectFit: 'cover', borderRadius: '4px' }} alt="Face" />
+                        <p style={{ margin: '8px 0 0 0', fontSize: '12px', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{name}</p>
+                        <p style={{ margin: '4px 0 0 0', fontSize: '11px', color: '#666' }}>{r.checkInAt ? new Date(r.checkInAt).toLocaleTimeString([], { hour: '2-digit', minute:'2-digit' }) : ''}</p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </>
+            )}
           </>
         ) : (
           <p className="muted">No summary data.</p>
@@ -960,3 +988,4 @@ export function App() {
     </div>
   );
 }
+

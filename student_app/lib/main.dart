@@ -219,6 +219,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
   Position? _position;
   String? _checkinFaceDescriptor;
   List<String> _checkinFaceDescriptors = const [];
+  String? _checkinCapturedImage;
 
   int _tabIndex = 0;
   bool _busy = false;
@@ -1626,10 +1627,11 @@ class _StudentHomePageState extends State<StudentHomePage> {
 }
 
 class FaceScanResult {
-  const FaceScanResult({required this.primaryDescriptor, required this.descriptors});
+  const FaceScanResult({required this.primaryDescriptor, required this.descriptors, this.imageBase64});
 
   final String primaryDescriptor;
   final List<String> descriptors;
+  final String? imageBase64;
 }
 
 class FaceScanPage extends StatefulWidget {
@@ -1729,11 +1731,26 @@ class _FaceScanPageState extends State<FaceScanPage> with SingleTickerProviderSt
 
       if (stable.length >= 8 && mounted) {
         _completed = true;
+        try {
           await _camera?.stopImageStream();
+          await Future.delayed(const Duration(milliseconds: 100));
+          final xFile = await _camera?.takePicture();
+          final bytes = await xFile?.readAsBytes();
+          String? b64;
+          if (bytes != null) b64 = base64Encode(bytes);
+          if (!mounted) return;
+          final primary = _findMedoid(stable);
+          Navigator.of(context).pop(FaceScanResult(
+            primaryDescriptor: primary, 
+            descriptors: stable,
+            imageBase64: b64,
+          ));
+        } catch (e) {
           if (!mounted) return;
           final primary = _findMedoid(stable);
           Navigator.of(context).pop(FaceScanResult(primaryDescriptor: primary, descriptors: stable));
         }
+      }
       } catch (e) {
         debugPrint('Frame processing err: $e');
       } finally {

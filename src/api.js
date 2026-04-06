@@ -739,6 +739,7 @@ const gfLat = Number(schedule.geofence && schedule.geofence.lat);
         checkInAt: new Date().toISOString(),
         distanceMeters: Math.round(distance),
         location: { lat, lng },
+          capturedImage: b.image || null,
         deviceId: incomingDevice || user.deviceId || null,
         faceVerified: true,
         faceDistance
