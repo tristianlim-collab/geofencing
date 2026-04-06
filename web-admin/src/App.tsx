@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useMemo, useState } from 'react';
+﻿import { FormEvent, useEffect, useMemo, useState } from 'react';
 import L from 'leaflet';
 import type { LeafletMouseEvent } from 'leaflet';
 import { Polygon, Marker, CircleMarker, MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet';
@@ -152,7 +152,7 @@ export function App() {
 
   const title = useMemo(() => {
     if (!user) return 'Teacher Web Portal';
-    return `${user.role.toUpperCase()} � ${user.name}`;
+    return `${user.role.toUpperCase()} - ${user.name}`;
   }, [user]);
 
   async function loadDashboard(nextToken: string) {
@@ -615,7 +615,7 @@ export function App() {
       <header className="topbar panel">
         <div>
           <h1>{title}</h1>
-          <p className="muted">Teacher Dashboard � Geofence Attendance</p>
+          <p className="muted">Teacher Dashboard - Geofence Attendance</p>
         </div>
         <div style={{ display: 'flex', gap: '8px' }}>
           <button className="ghost-btn" onClick={onLogout}>Logout</button>
@@ -672,7 +672,7 @@ export function App() {
               <option value="">Select class</option>
               {classes.map(c => (
                 <option key={c.id} value={c.id}>
-                  {c.subjectCode} � {c.section}
+                  {c.subjectCode} - {c.section}
                 </option>
               ))}
             </select>
@@ -688,7 +688,7 @@ export function App() {
                   />
                   <span>
                     {student.name} ({student.studentId || student.id})
-                    {enrolledSet.has(student.id) ? ' � Enrolled' : ' � Not enrolled'}
+                    {enrolledSet.has(student.id) ? ' - Enrolled' : ' - Not enrolled'}
                   </span>
                 </label>
               ))}
@@ -725,7 +725,7 @@ export function App() {
               <option value="">Select class</option>
               {classes.map(c => (
                 <option key={c.id} value={c.id}>
-                  {c.subjectCode} � {c.section}
+                  {c.subjectCode} - {c.section}
                 </option>
               ))}
             </select>
@@ -892,7 +892,7 @@ export function App() {
                   <span>{s.startTime}-{s.endTime}</span>
                 </div>
                 <p className="list-meta">
-                  Days: {dayLabels(s.daysOfWeek)} � Geofence: {s.geofence.radiusMeters}m
+                  Days: {dayLabels(s.daysOfWeek)} - Geofence: {s.geofence.radiusMeters}m
                 </p>
                 <button
                   className="danger-btn list-action-btn"
@@ -988,4 +988,5 @@ export function App() {
     </div>
   );
 }
+
 
