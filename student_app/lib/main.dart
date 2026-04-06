@@ -295,7 +295,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
   }
 
   String _defaultApiBase() {
-    return 'http://192.168.140.129:3100/api';
+    return 'https://geofencing-xrum.onrender.com/api';
   }
 
   void _setApiBase(String value) {
