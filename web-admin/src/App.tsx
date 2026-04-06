@@ -913,10 +913,10 @@ export function App() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
           <h2>Attendance Summary</h2>
           <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
-            <input type="date" value={summaryFrom} onChange={e => setSummaryFrom(e.target.value)} />
-            <span>to</span>
-            <input type="date" value={summaryTo} onChange={e => setSummaryTo(e.target.value)} />
-            <button className="btn-small" onClick={loadFilteredSummary}>Filter</button>
+              <input type="date" value={summaryFrom} onChange={e => setSummaryFrom(e.target.value)} style={{ width: 'auto' }} />
+              <span>to</span>
+              <input type="date" value={summaryTo} onChange={e => setSummaryTo(e.target.value)} style={{ width: 'auto' }} />
+              <button className="btn-small" onClick={loadFilteredSummary} style={{ width: 'auto' }}>Filter</button>
           </div>
         </div>
         {summary ? (
@@ -927,8 +927,8 @@ export function App() {
               </p>
               {summary.perStudent.length > 0 && (
                 <div style={{ display: 'flex', gap: '8px' }}>
-                  <button className="btn-small" style={{ backgroundColor: '#2e7d32', color: 'white' }} onClick={exportSummaryCsv}>Export CSV</button>
-                  <button className="btn-small" style={{ backgroundColor: '#d32f2f', color: 'white' }} onClick={exportSummaryPdf}>Export PDF</button>
+                    <button className="btn-small" style={{ backgroundColor: '#2e7d32', color: 'white', width: 'auto' }} onClick={exportSummaryCsv}>Export CSV</button>
+                    <button className="btn-small" style={{ backgroundColor: '#d32f2f', color: 'white', width: 'auto' }} onClick={exportSummaryPdf}>Export PDF</button>
                 </div>
               )}
             </div>
