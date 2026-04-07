@@ -397,7 +397,6 @@ export function App() {
 
   async function onCreateSchedule(event: FormEvent) {
     event.preventDefault();
-    if (!token) return;
     setError('');
     setNotice('');
     setCreatingSchedule(true);
